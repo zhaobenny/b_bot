@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "github:discordjs/discord.js",
+    "enmap": "^5.1.2",
+    "ffmpeg": "0.0.4",
+    "node-opus": "^0.3.2",
+    "ytdl-core": "^0.29.5",
+    "ytdl-core-discord": "^1.0.3"
   }
 }
