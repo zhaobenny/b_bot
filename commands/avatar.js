@@ -18,10 +18,10 @@ module.exports = {
         } else if (msg.mentions.users.size >= 1) {
            msg.mentions.users.map(user => {
             embed
-            .setImage(msg.user.displayAvatarURL())
-            .setTitle("Your avatar link" )
-            .setURL(msg.user.displayAvatarURL())
-            return msg.channel.send(embed);
+            .setImage(user.displayAvatarURL())
+            .setTitle("The avatar link" )
+            .setURL(user.displayAvatarURL())
+            msg.channel.send(embed);
            });
         }
 	},
