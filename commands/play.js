@@ -4,7 +4,7 @@ const ytdl = require('ytdl-core');
 
 async function playQueue(client, connection, msg){
     var server = client.servers[msg.guild.id];
-    const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:32768 }), {type: 'opus'});
+    const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:32768 }).on('error', e=>console.log(e)), {type: 'opus'});
     dispatcher.setVolume(0.05);
     server.dispatcher = dispatcher;
     dispatcher.on('error', error => console.error(error));
