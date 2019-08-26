@@ -9,8 +9,8 @@ async function playQueue(client, connection, msg){
     server.dispatcher = dispatcher;
     dispatcher.on('error', error => console.error(error));
     dispatcher.on("end", () => {
+        server.queue.shift();
         if (server.queue[0]){
-            server.queue.shift();
             let args = "";
             client.commands.get("np").run(client, msg, args);
             playQueue(client, connection, msg);
