@@ -30,6 +30,7 @@ async function playQueue(client, connection, msg){
 module.exports = {
 	name: 'play',
     description: 'Plays music from YT links',
+    aliases: ['queue', 'add'],
 	run(client, msg, args) {
         if (!msg.member.voice.channel){
             return msg.channel.send("You're not in a voice channel!");

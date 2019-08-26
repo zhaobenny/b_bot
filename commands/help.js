@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'help',
-	description: 'returns helpful infomation',
+  description: 'returns helpful infomation',
+  aliases: ['what'],
 	run(client, msg, args) {
         const embed = new Discord.MessageEmbed()
         .setTitle("Bot Commands")

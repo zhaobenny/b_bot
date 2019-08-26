@@ -3,7 +3,8 @@ const ytdl = require('ytdl-core');
 
 module.exports = {
 	name: 'Now playing',
-	description: 'Show what is playing',
+    description: 'Show what is playing',
+    aliases: ['nowplaying', 'current'],
 	run(client, msg, args) {
         if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue[0]){
             let server = client.servers[msg.guild.id];
@@ -16,7 +17,7 @@ module.exports = {
                 msg.channel.send({embed});
             });
         } else {
-            return msg.channel.send("Nothing is playing");
+            return msg.channel.send("Nothing is currently playing");
         }
     },
 };

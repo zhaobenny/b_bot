@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'Skip',
-	description: 'Skip song',
+    description: 'Skip song',
+    aliases: ['next'],
 	run(client, msg, args) {
         if (!msg.member.voice.channel){
             return msg.channel.send("You're not in a voice channel!");
