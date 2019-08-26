@@ -2,9 +2,12 @@ const Discord = require('discord.js');
 const ytdl_d = require('ytdl-core-discord');
 const ytdl = require('ytdl-core');
 
+var songAdding = false;
+
 async function playQueue(client, connection, msg){
     var server = client.servers[msg.guild.id];
     const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:32768 }), {type: 'opus'});
+    songAdding = false;
     dispatcher.setVolume(0.05);
     server.dispatcher = dispatcher;
     dispatcher.on('error', error => console.error(error));
@@ -45,23 +48,32 @@ module.exports = {
             return  msg.channel.send("Youtube links only!");
         }
 
-        if (!client.servers[msg.guild.id]){
-            client.servers[msg.guild.id] = {
-                queue : [],
-                dispatcher : null,
+        if (songAdding){
+            var play = client.commands.get("play");
+            setTimeout(play.run, 100, client, msg, args); //helps with $play cmd spam
+        } else {
+
+            songAdding = true;
+
+            if (!client.servers[msg.guild.id]){
+                client.servers[msg.guild.id] = {
+                    queue : [],
+                    dispatcher : null,
+                }
             }
-        }
-        var server = client.servers[msg.guild.id];
 
-        if (server.dispatcher){
-            server.queue.push(args[0]);
-            return msg.react('👍');
-        }
+            var server = client.servers[msg.guild.id];
 
-        msg.member.voice.channel.join().then(connection =>{
-            server.queue.push(args[0]);
-            client.commands.get("np").run(client, msg, args);
-            playQueue(client, connection, msg);
-        })
+            if (server.dispatcher){
+                server.queue.push(args[0]);
+                return msg.react('👍');
+            }
+
+            msg.member.voice.channel.join().then(connection =>{
+                server.queue.push(args[0]);
+                client.commands.get("np").run(client, msg, args);
+                playQueue(client, connection, msg);
+            })
+        }
 	},
 };
