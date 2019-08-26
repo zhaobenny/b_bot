@@ -8,7 +8,10 @@ client.servers = {};
 
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
-client.on("debug", (e) => console.info(e));
+if (config.debug){
+  console.log(`[BOT] Debug mode enabled`);
+  client.on("debug", (e) => console.info(e));
+}
 process.on('unhandledRejection', error => console.error('[Bot] Uncaught Promise Rejection', error));
 
 
