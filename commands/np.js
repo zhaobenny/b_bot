@@ -7,7 +7,6 @@ module.exports = {
     aliases: ['nowplaying', 'current'],
 	run(client, msg, args) {
         if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue[0]){
-            let server = client.servers[msg.guild.id];
             ytdl.getBasicInfo(client.servers[msg.guild.id].queue[0], (err, info) => {
                 const embed = new Discord.MessageEmbed()
                 .setAuthor("Now Playing")

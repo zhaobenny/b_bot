@@ -5,7 +5,7 @@ const youtubeapi = require('simple-youtube-api');
 
 async function playQueue(client, connection, msg){
     var server = client.servers[msg.guild.id];
-    const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:32768 }), {type: 'opus'});
+    const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus'});
     dispatcher.setVolume(0.05);
     server.dispatcher = dispatcher;
     dispatcher.on('error', error => {
@@ -28,14 +28,14 @@ async function playQueue(client, connection, msg){
             .setTitle("Queue ended!")
             return msg.channel.send({embed});
         }
-    });
-}
+    })
+};
 
 module.exports = {
 	name: 'play',
     description: 'Plays music from YT links',
     aliases: ['add'],
-	run(client, msg, args) {
+	async run(client, msg, args) {
         const youtube = new youtubeapi(client.config.yt_key);
         if (!client.servers[msg.guild.id]){
             client.servers[msg.guild.id] = {
@@ -57,11 +57,23 @@ module.exports = {
         }
 
         if (!(ytdl.validateURL(song))){
-            youtube.searchVideos(args.join(' '), 1)
-            .then(result => {
-                song = "https://www.youtube.com/watch?v=" + result[0].id;
-            })
-            .catch(console.error);
+                var checkForPlaylist =  JSON.stringify(youtubeapi.util.parseURL(song))
+                if (checkForPlaylist.includes("playlist")){
+                    let playlistURL = song;
+                    song = "";
+                    const playlist = await youtube.getPlaylist(playlistURL);
+                    const videos = await playlist.getVideos();
+                    for (let i = 0; i < videos.length-1; i++){
+                            song = "https://www.youtube.com/watch?v=" + videos[i].id;
+                            server.queue.push(song);
+                         }
+                    song = "https://www.youtube.com/watch?v=" + videos[videos.length-1].id;
+                } else {
+                    youtube.searchVideos(args.join(' '), 1) .then(result => {
+                       song = "https://www.youtube.com/watch?v=" + result[0].id;
+                    })
+                     .catch(console.error);
+                }
         }
 
         if (server.dispatcher){

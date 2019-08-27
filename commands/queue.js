@@ -5,11 +5,14 @@ module.exports = {
 	description: 'Queue of songs',
 	async run(client, msg, args) {
         if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
-            msg.channel.send("🇶UEUE");
-            for (let i = 0; i < client.servers[msg.guild.id].queue.length; i++) {
-                let info = await ytdl.getBasicInfo(client.servers[msg.guild.id].queue[i]);
-                msg.channel.send(i+1 + ". " + info.title);
+            msg.react('👍');
+            var returnQueue = "```Queue\n";
+            for (let i = 0; i < client.servers[msg.guild.id].queue.length && i < 10; i++) {
+                let info = await ytdl.getBasicInfo(client.servers[msg.guild.id].queue[i]); ///TO DO: remove await ytdl call -- make queue command faster
+                returnQueue += i+1 + ". " + info.title + "\n";
             }
+            returnQueue = returnQueue + "```";
+            msg.channel.send(returnQueue);
         } else {
             return msg.channel.send("there is no queue");
         }
