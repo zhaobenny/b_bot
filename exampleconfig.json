@@ -1,5 +1,7 @@
 
 {
     "token": "token here",
-    "prefix" : "$"
+    "yt_key": "yt-api key here",
+    "prefix" : "$",
+    "debug" : false
  }

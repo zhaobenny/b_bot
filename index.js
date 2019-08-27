@@ -17,7 +17,11 @@ process.on('unhandledRejection', error => console.error('[Bot] Uncaught Promise 
 
 client.on('ready', () => {
     console.log(`[BOT] Online as ${client.user.tag}!`);
-    client.user.setActivity('russian roulette');
+    if (config.debug){
+      client.user.setActivity('russian roulette');
+    } else {
+      client.user.setActivity('with code');
+    }
 });
 
 fs.readdir("./events/", (err, files) => {
