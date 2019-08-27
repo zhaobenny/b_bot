@@ -6,7 +6,7 @@ const youtubeapi = require('simple-youtube-api');
 async function playQueue(client, connection, msg){
     var server = client.servers[msg.guild.id];
     const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus'});
-    dispatcher.setVolume(0.05);
+    dispatcher.setVolume(0.035);
     server.dispatcher = dispatcher;
     dispatcher.on('error', error => {
         console.log(error);
