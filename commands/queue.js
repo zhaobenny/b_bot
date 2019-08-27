@@ -6,7 +6,7 @@ module.exports = {
 	async run(client, msg, args) {
         if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
             msg.react('👍');
-            var returnQueue = "```Queue\n";
+            var returnQueue = "``` Queue\n";
             for (let i = 0; i < client.servers[msg.guild.id].queue.length && i < 10; i++) {
                 let info = await ytdl.getBasicInfo(client.servers[msg.guild.id].queue[i]); ///TO DO: remove await ytdl call -- make queue command faster
                 returnQueue += i+1 + ". " + info.title + "\n";
