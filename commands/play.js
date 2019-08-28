@@ -3,33 +3,6 @@ const ytdl_d = require('ytdl-core-discord');
 const ytdl = require('ytdl-core');
 const youtubeapi = require('simple-youtube-api');
 
-async function playQueue(client, connection, msg){
-    var server = client.servers[msg.guild.id];
-    const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus', highWaterMark: 1});
-    dispatcher.setVolume(0.035);
-    server.dispatcher = dispatcher;
-    dispatcher.on('error', error => {
-        console.log(error);
-        if (error.message.includes("403") || error.message.includes("ECONNRESET")){ // for the random youtube disconnect
-            setTimeout(playQueue, 3000, client, msg, args);
-        }
-    })
-    dispatcher.on("end", () => {
-        server.queue.shift();
-        if (server.queue[0]){
-            let args = "";
-            client.commands.get("np").run(client, msg, args);
-            playQueue(client, connection, msg);
-            return;
-        } else {
-            server.dispatcher = null;
-            const embed = new Discord.MessageEmbed()
-            .setTitle("Queue ended!")
-            return msg.channel.send({embed});
-        }
-    })
-};
-
 module.exports = {
 	name: 'play',
     description: 'Plays music from YT links',
@@ -115,8 +88,7 @@ module.exports = {
         msg.member.voice.channel.join().then(connection =>{
             server.queue.push(song);
             client.commands.get("np").run(client, msg, args);
-            playQueue(client, connection, msg);
+            module.exports.playQueue(client, connection, msg);
             })
-        }
-	},
-};
+        },
+}
