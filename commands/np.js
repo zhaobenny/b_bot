@@ -12,13 +12,32 @@ module.exports = {
             ytdl.getBasicInfo(client.servers[msg.guild.id].queue[0], (err, info) => {
                 if (err) {
                     console.log("[BOT] Error in getting YT info (assume private or deleted video): " + err.message);
-                    if (err.message.includes("removed") || err.message.includes("deleted") || err.message.includes("private")){  // TO DO : redo this betters
+                    if (err.message.includes("removed") || err.message.includes("deleted") || err.message.includes("private")){  // TO DO : move entire thing somewhere to play.js
                         client.servers[msg.guild.id].queue.shift();
-                        this.run(client, msg, args)
-                        play.playQueue(client, msg.guild.voice.connection, msg);
+                        if (client.servers[msg.guild.id].queue[0]){
+                            this.run(client, msg, args)
+                            play.playQueue(client, msg.guild.voice.connection, msg);
+                            return;
+                        }
                     }
-                    return msg.channel.send('Error playing video (deleted or private video?)');
+                    client.servers[msg.guild.id].dispatcher = null;
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle("Queue ended!")
+                    return msg.channel.send({embed});
                 }
+                if (typeof info.title == "undefined"){
+                    console.log("[BOT] Error in getting YT info (info undefined?)");
+                    client.servers[msg.guild.id].queue.shift();
+                    if (client.servers[msg.guild.id].queue[0]){
+                        this.run(client, msg, args);
+                        play.playQueue(client, msg.guild.voice.connection, msg);
+                        return;
+                    }
+                    client.servers[msg.guild.id].dispatcher = null;
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle("Queue ended!")
+                    return msg.channel.send({embed});
+                }  // move up to here
                 const embed = new Discord.MessageEmbed()
                 .setAuthor("Now Playing")
                 .setTitle(info.title)

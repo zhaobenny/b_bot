@@ -13,23 +13,20 @@ module.exports = {
         const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus', highWaterMark: 1});
         dispatcher.setVolume(0.035);
         server.dispatcher = dispatcher;
-        dispatcher.on('info',(info, format) => {
-            if (!info.player_response.videoDetails){
-                console.log(info.player_response.videoDetails);
-            }
-        })
+
         dispatcher.on('error', error => {
             console.log(error);
             if (error.message.contains("403") || error.message.contains("ECONNRESET")){
-                setTimeout(playQueue, 3000, client, msg, args);
+                setTimeout(this.playQueue, 3000, client, msg, args);
             }
         })
+
         dispatcher.on("end", (reason) => {
             server.queue.shift();
             if (server.queue[0]){
                 let args = "";
                 client.commands.get("np").run(client, msg, args);
-                playQueue(client, connection, msg);
+                this.playQueue(client, connection, msg);
                 return;
             } else {
                 server.dispatcher = null;

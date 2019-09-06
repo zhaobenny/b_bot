@@ -9,7 +9,9 @@ module.exports = {
             var returnQueue = "``` Queue\n";
             for (let i = 0; i < client.servers[msg.guild.id].queue.length && i < 10; i++) {
                 let info = await ytdl.getBasicInfo(client.servers[msg.guild.id].queue[i]); ///TO DO: remove await ytdl call -- make queue command faster
-                returnQueue += i+1 + ". " + info.title + "\n";
+                if (typeof info.title != "undefined"){
+                    returnQueue += i+1 + ". " + info.title + "\n";
+                }
             }
             returnQueue = returnQueue + "```";
             msg.channel.send(returnQueue);
