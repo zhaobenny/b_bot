@@ -37,7 +37,16 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                     .setTitle("Queue ended!")
                     return msg.channel.send({embed});
-                }  // move up to here
+                }  //entire thing ends here
+
+                msg.channel.messages.fetch({limit: 1}).then(msgFetched => {
+                    if (msgFetched.first().author.bot){
+                        if (msgFetched.first().embeds[0].author.name == "Now Playing"){
+                            msgFetched.first().delete(100);
+                        }
+                    }
+                  });
+
                 const embed = new Discord.MessageEmbed()
                 .setAuthor("Now Playing")
                 .setTitle(info.title)
