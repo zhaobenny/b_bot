@@ -16,7 +16,8 @@ process.on('unhandledRejection', error => console.error('[Bot] Uncaught Promise 
 
 
 client.on('ready', () => {
-    console.log(`[BOT] Online as ${client.user.tag}!`);
+    let now = new Date(Date.now());
+    console.log(`[BOT] Online as ${client.user.tag}! at ` + now.toLocaleString("en-US"));
     if (!config.debug){
       client.user.setActivity('russian roulette');
     } else {
@@ -53,11 +54,13 @@ fs.readdir("./commands/", (err, files) => {
 
 
 client.once('shardReconnecting', id => {
-    console.log(`[BOT] Reconnecting to shard ${id}`);
+    let now = new Date(Date.now());
+    console.log(`[BOT] Reconnecting to shard ${id} at ` + now.toLocaleString("en-US"));
    });
 
 client.once('disconnect', () => {
-    console.log('[BOT] Disconnected');
+    let now = new Date(Date.now());
+    console.log('[BOT] Disconnected at ' + now.toLocaleString("en-US"));
 });
 
 

@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'DC',
     description: 'Bot will DC from voice channel',
-    aliases: ['leave', 'disconnect'],
+    aliases: ['leave', 'disconnect','reset'],
 	run(client, msg, args) {
         if (msg.guild.voice.connection){
             let server = client.servers[msg.guild.id];

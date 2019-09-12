@@ -2,6 +2,7 @@ module.exports = (client, msg) => {
     if (msg.content == "where benny"){
         msg.channel.send("idk");
     }
+
     if ((msg.content.indexOf(client.config.prefix) !== 0) || msg.author.bot){
         return;
     }

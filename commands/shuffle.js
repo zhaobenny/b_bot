@@ -1,7 +1,7 @@
 
 
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -27,13 +27,13 @@ module.exports = {
 	run(client, msg, args) {
         if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
             msg.react('👍');
-            var server = client.servers[msg.guild.id];
+            let server = client.servers[msg.guild.id];
             if (args[0] == "all"){
                 shuffle(server.queue);
                 client.commands.get("skip").run(client, msg, args);
             } else {
 
-                var notFirstSong = shuffle(server.queue.slice(1));
+                let notFirstSong = shuffle(server.queue.slice(1));
                 server.queue =  [client.servers[msg.guild.id].queue.shift()]
                 server.queue = server.queue.concat(notFirstSong);
             }
