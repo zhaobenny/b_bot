@@ -3,8 +3,9 @@ module.exports = {
     description: 'Clear queue of songs',
     aliases: ['c', 'empty'],
 	run(client, msg, args) {
-        if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
-            client.servers[msg.guild.id].queue =  [client.servers[msg.guild.id].queue.shift()];
+        let server = client.servers[msg.guild.id];
+        if (server && server.queue && server.queue.length != 0){
+            server.queue =  [server.queue.shift()];
             return msg.react('👍');
         } else {
             msg.channel.send("there is no queue");

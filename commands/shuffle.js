@@ -25,16 +25,15 @@ module.exports = {
 	name: 'Shuffle',
     description: 'Shuffles queue',
 	run(client, msg, args) {
-        if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
+        let server = client.servers[msg.guild.id]
+        if (server && server.queue && server.queue.length != 0){
             msg.react('👍');
-            let server = client.servers[msg.guild.id];
             if (args[0] == "all"){
                 shuffle(server.queue);
                 client.commands.get("skip").run(client, msg, args);
             } else {
-
                 let notFirstSong = shuffle(server.queue.slice(1));
-                server.queue =  [client.servers[msg.guild.id].queue.shift()]
+                server.queue =  [server.queue.shift()]
                 server.queue = server.queue.concat(notFirstSong);
             }
         } else {

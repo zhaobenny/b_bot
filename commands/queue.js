@@ -6,11 +6,12 @@ module.exports = {
     aliases: ['q'],
 
 	async run(client, msg, args) {
-        if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
+        let server = client.servers[msg.guild.id]
+        if (server && server.queue && server.queue.length != 0){
             msg.react('👍');
             let returnQueue = "``` Queue\n";
-            for (let i = 0; i < client.servers[msg.guild.id].queue.length && i < 10; i++) {
-                let info = await ytdl.getBasicInfo(client.servers[msg.guild.id].queue[i]); ///TO DO: remove await ytdl call -- make queue command faster
+            for (let i = 0; i < server.queue.length && i < 10; i++) {
+                let info = await ytdl.getBasicInfo(server.queue[i]); ///TO DO: remove await ytdl call -- make queue command faster
                 if (typeof info.title != "undefined"){
                     returnQueue += i+1 + ". " + info.title + "\n";
                 }
