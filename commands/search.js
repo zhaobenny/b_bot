@@ -2,7 +2,7 @@ const youtubeapi = require('simple-youtube-api');
 
 module.exports = {
 	name: 'search',
-	description: 'testing',
+	description: 'Searches for Youtube links',
 	run(client, msg, args) {
         const youtube = new youtubeapi(client.config.yt_key);
         youtube.searchVideos(args.join(' '), 5).then(results => {

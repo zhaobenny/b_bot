@@ -2,7 +2,9 @@ const ytdl = require('ytdl-core');
 
 module.exports = {
 	name: 'queue',
-	description: 'Queue of songs',
+    description: 'Returns queue of songs',
+    aliases: ['q'],
+
 	async run(client, msg, args) {
         if (client.servers[msg.guild.id] && client.servers[msg.guild.id].queue && client.servers[msg.guild.id].queue.length != 0){
             msg.react('👍');
