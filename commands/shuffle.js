@@ -22,7 +22,7 @@ function shuffle(array) {
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 
 module.exports = {
-	name: 'Shuffle',
+	name: 'shuffle',
     description: 'Shuffles queue',
 	run(client, msg, args) {
         let server = client.servers[msg.guild.id]

@@ -1,5 +1,5 @@
 module.exports = {
-	name: 'Clear',
+	name: 'clear',
     description: 'Clear queue of songs',
     aliases: ['c', 'empty'],
 	run(client, msg, args) {

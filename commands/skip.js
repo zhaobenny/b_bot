@@ -1,5 +1,5 @@
 module.exports = {
-	name: 'Skip',
+	name: 'skip',
     description: 'Skip song',
     aliases: ['next'],
 	run(client, msg, args) {

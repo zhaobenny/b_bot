@@ -4,7 +4,7 @@ const play = require("./play.js");
 
 
 module.exports = {
-	name: 'Now playing',
+	name: 'now playing',
     description: 'Show what is playing',
     aliases: ['nowplaying', 'current'],
 	run(client, msg, args) {
@@ -12,7 +12,7 @@ module.exports = {
         if (server && server.queue && server.queue[0]){
             ytdl.getBasicInfo(server.queue[0], (err, info) => {
                 if (err) {
-                    console.log("[BOT] Error in getting YT info (assume private or deleted video): " + err.message);
+                    console.log("[BOT] Error in getting YT info: " + err.message);
                     if (err.message.includes("removed") || err.message.includes("deleted") || err.message.includes("private")){  // TO DO : move entire thing somewhere to play.js
                         server.queue.shift();
                         if (server.queue[0]){
