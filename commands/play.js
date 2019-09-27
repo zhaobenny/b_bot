@@ -57,9 +57,11 @@ module.exports = {
             return msg.channel.send("You're not in a voice channel!");
         }
 
-        if (args.length === 0){
+        if (args.length === 0 && !msg.guild.voice){
             msg.member.voice.channel.join();
             return msg.channel.send("Joined");
+        } else if (args.length === 0){
+            return msg.channel.send("No args provided?");
         }
 
         if (!(ytdl.validateURL(song))){
@@ -90,5 +92,7 @@ module.exports = {
             client.commands.get("np").run(client, msg, args);
             module.exports.playQueue(client, connection, msg);
             })
+
+        return true
         },
 }
