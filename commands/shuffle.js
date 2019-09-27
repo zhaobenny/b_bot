@@ -30,7 +30,9 @@ module.exports = {
             msg.react('👍');
             if (args[0] == "all"){
                 shuffle(server.queue);
-                client.commands.get("skip").run(client, msg, args);
+                if (!server.dispatcher.paused){
+                    client.commands.get("skip").run(client, msg, args);
+                }
             } else {
                 let notFirstSong = shuffle(server.queue.slice(1));
                 server.queue =  [server.queue.shift()]

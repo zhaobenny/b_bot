@@ -13,6 +13,9 @@ module.exports = {
         if (!server || !server.queue || server.queue.length === 0){
             return msg.channel.send("There is no queue");
         }
+        if (server.dispatcher.paused){
+            return msg.channel.send("Can't skip when queue is paused");
+        }
         server.dispatcher.end();
         return msg.react('👍');
 
