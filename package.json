@@ -15,7 +15,7 @@
     "ffmpeg": "0.0.4",
     "node-opus": "^0.3.2",
     "simple-youtube-api": "^5.2.1",
-    "ytdl-core": "^0.29.6",
+    "ytdl-core": "^0.29.7",
     "ytdl-core-discord": "^1.0.3"
   }
 }
