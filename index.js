@@ -12,7 +12,10 @@ if (config.debug){
   console.log(`[BOT] Debug mode enabled`);
   client.on("debug", (e) => console.info(e));
 }
-process.on('unhandledRejection', error => console.error('[Bot] Uncaught Promise Rejection', error));
+process.on('unhandledRejection', error => {
+  let now = new Date(Date.now());
+  console.log('[Bot] Uncaught Promise Rejection at ' + now.toLocaleString("en-US") + '\n' + error)
+});
 
 
 client.on('ready', () => {

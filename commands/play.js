@@ -10,7 +10,7 @@ module.exports = {
 
     async playQueue(client, connection, msg){
         let server = client.servers[msg.guild.id];
-        const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus', highWaterMark: 1});
+        const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus'});
         dispatcher.setVolume(0.035);
         server.dispatcher = dispatcher;
 
