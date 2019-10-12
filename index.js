@@ -51,6 +51,9 @@ fs.readdir("./commands/", (err, files) => {
       }
       let commandFile = require(`./commands/${file}`);
       let commandName = file.split(".")[0];
+      if (client.config.debug){
+        console.log("[BOT] Loading " + commandName + ".js")
+      }
       client.commands.set(commandName, commandFile);
     });
   });

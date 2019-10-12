@@ -8,9 +8,10 @@ module.exports = (client, msg) => {
     }
     const args = msg.content.substring(client.config.prefix.length).split(/ +/g);
     const commandName = args.shift().toLowerCase();
-
     const  command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));;
-
+    if (client.config.debug){
+        console.log("[BOT] Attempting to run command \"" + commandName + "\" with arguments: [" + args + "]")
+    }
     if (!command){
         return msg.channel.send('wtf like thats not a command');
     }
