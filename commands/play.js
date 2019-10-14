@@ -19,7 +19,7 @@ module.exports = {
             console.log("[BOT] Error in playing music at " + now.toLocaleString("en-US") + ". Error message listed below: \n\n")
             console.log(error);
             if (error.message.contains("403") || error.message.contains("ECONNRESET")){ // handles error properly?
-                Console.log("[BOT] Trying to play music again");
+                console.log("[BOT] Trying to play music again");
                 setTimeout(this.playQueue, 3000, client, msg, args);
             }
         })
