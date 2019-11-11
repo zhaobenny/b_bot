@@ -42,7 +42,7 @@ module.exports = {
 
                 msg.channel.messages.fetch({limit: 1}).then(msgFetched => {
                     if (msgFetched.first().author.bot){
-                        if (msgFetched.first().embeds[0].author.name == "Now Playing"){
+                        if (msgFetched.first().embeds[0] && msgFetched.first().embeds[0].author.name == "Now Playing"){
                             msgFetched.first().delete(100);
                         }
                     }

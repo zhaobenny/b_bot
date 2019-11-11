@@ -18,7 +18,7 @@ module.exports = {
             return msg.channel.send('There is already a queue');
         }
         this.addPlaylists(client, msg, function(){
-            setTimeout(shuffle.run(client, msg, ["all"]), 2000);
+            setTimeout(shuffle.run, 2000, client, msg, ["all"]);
         });
 	},
 };

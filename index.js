@@ -14,7 +14,7 @@ if (config.debug){
 }
 process.on('unhandledRejection', error => {
   let now = new Date(Date.now());
-  console.log('[Bot] Uncaught Promise Rejection at ' + now.toLocaleString("en-US") + '\n' + error)
+  console.log('[BOT] Uncaught Promise Rejection at ' + now.toLocaleString("en-US") + '\n' + error)
 });
 
 
