@@ -14,16 +14,6 @@ module.exports = {
         dispatcher.setVolume(0.035);
         server.dispatcher = dispatcher;
 
-        dispatcher.on('error', error => {
-            let now = new Date(Date.now());
-            console.log("[BOT] Error in playing music at " + now.toLocaleString("en-US") + ". Error message listed below: \n\n")
-            console.log(error);
-            if (error.message.contains("403") || error.message.contains("ECONNRESET")){ // handles error properly?
-                console.log("[BOT] Trying to play music again");
-                setTimeout(this.playQueue, 3000, client, msg, args);
-            }
-        })
-
         dispatcher.on("end", (reason) => {
             server.queue.shift();
             if (server.queue[0]){

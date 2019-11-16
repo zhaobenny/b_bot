@@ -8,13 +8,15 @@ client.servers = {};
 
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
+
 if (config.debug){
   console.log(`[BOT] Debug mode enabled`);
   client.on("debug", (e) => console.info(e));
 }
-process.on('unhandledRejection', error => {
+
+process.on('unhandledRejection',  (reason, promise)  => {
   let now = new Date(Date.now());
-  console.log('[BOT] Uncaught Promise Rejection at ' + now.toLocaleString("en-US") + '\n' + error)
+  console.log('[BOT] Uncaught Promise Rejection at ' + now.toLocaleString("en-US") + '\n' + + promise + '\n' + reason)
 });
 
 
@@ -59,12 +61,12 @@ fs.readdir("./commands/", (err, files) => {
   });
 
 
-client.once('shardReconnecting', id => {
+client.on('shardReconnecting', id => {
     let now = new Date(Date.now());
     console.log(`[BOT] Reconnecting to shard ${id} at ` + now.toLocaleString("en-US"));
    });
 
-client.once('disconnect', () => {
+client.on('disconnect', () => {
     let now = new Date(Date.now());
     console.log('[BOT] Disconnected at ' + now.toLocaleString("en-US"));
 });
