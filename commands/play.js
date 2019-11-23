@@ -10,7 +10,27 @@ module.exports = {
 
     async playQueue(client, connection, msg){
         let server = client.servers[msg.guild.id];
-        const dispatcher = connection.play(await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25 }), {type: 'opus'});
+        try {
+            var getSong = await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25});
+        } catch (error){
+            console.log("[BOT] Error playing music: \n");
+            console.log(error);
+            console.log("\n");
+            server.queue.shift();
+            if (server.queue[0]){
+                let args = "";
+                client.commands.get("np").run(client, msg, args);
+                this.playQueue(client, connection, msg);
+                return;
+            } else {
+                server.dispatcher = null;
+                const embed = new Discord.MessageEmbed()
+                .setTitle("Queue ended!")
+                return msg.channel.send({embed});
+            }
+        }
+
+        var dispatcher = connection.play(getSong, {type: 'opus'});
         dispatcher.setVolume(0.035);
         server.dispatcher = dispatcher;
 
