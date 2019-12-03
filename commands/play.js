@@ -11,13 +11,15 @@ module.exports = {
     async playQueue(client, connection, msg){
         let server = client.servers[msg.guild.id];
         try {
-            client.commands.get("np").run(client, msg, "");
             var getSong = await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25});
         } catch (error){
             console.log("[BOT] Error playing music: \n");
             console.log(error);
+            console.log("\n");
             server.queue.shift();
             if (server.queue[0]){
+                let args = "";
+                client.commands.get("np").run(client, msg, args);
                 this.playQueue(client, connection, msg);
                 return;
             } else {
@@ -35,6 +37,8 @@ module.exports = {
         dispatcher.on("end", (reason) => {
             server.queue.shift();
             if (server.queue[0]){
+                let args = "";
+                client.commands.get("np").run(client, msg, args);
                 this.playQueue(client, connection, msg);
                 return;
             } else {
@@ -88,13 +92,14 @@ module.exports = {
                 }
         }
 
-        if (server.dispatcher){
+        if (server.dispatcher ){
             server.queue.push(song);
             return msg.react('👍');
         }
 
         msg.member.voice.channel.join().then(connection =>{
             server.queue.push(song);
+            client.commands.get("np").run(client, msg, args);
             module.exports.playQueue(client, connection, msg);
             })
 

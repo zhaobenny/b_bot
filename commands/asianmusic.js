@@ -1,6 +1,5 @@
 const play = require("./play.js");
 const shuffle = require("./shuffle.js");
-const skip = require("./skip.js");
 
 
 
@@ -20,7 +19,6 @@ module.exports = {
         }
         this.addPlaylists(client, msg, function(){
             setTimeout(shuffle.run, 2000, client, msg, ["all"]);
-            setTimeout(skip.run, 3000, client, msg, [""]);
         });
 	},
 };
