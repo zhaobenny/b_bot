@@ -31,6 +31,8 @@ module.exports = {
                             msgFetched.first().delete(100);
                         }
                     }
+                  }).catch(error => {
+                      console.log("[BOT] Error occured while fetching: " + error)
                   });
 
                 const embed = new Discord.MessageEmbed()
