@@ -12,7 +12,6 @@ module.exports = {
         let server = client.servers[msg.guild.id];
         try {
             var getSong = await ytdl_d(server.queue[0], {format: "audioonly", highWaterMark:1<<25})
-            .on('error', error => console.error(error));
         } catch (error){
             console.log("[BOT] Error playing music: \n");
             console.log(error);
