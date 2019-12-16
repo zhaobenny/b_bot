@@ -19,7 +19,7 @@ module.exports = {
         }
         this.addPlaylists(client, msg, function(){
             setTimeout(shuffle.run, 2000, client, msg, ["all"]);
-            setTimeout(skip.run, 6000, client, msg, [""]);
+            setTimeout(skip.run, 5500, client, msg, [""]);
         });
 	},
 };
