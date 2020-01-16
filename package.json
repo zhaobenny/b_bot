@@ -1,21 +1,27 @@
 {
-  "name": "discordbot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "b_bot",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Basic music-playing Discord bot",
   "main": "index.js",
   "scripts": {
+    "start"  : "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "https://github.com/zhaobenny",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "github:discordjs/discord.js",
-    "enmap": "^5.2.3",
+    "bufferutil": "^4.0.1",
+    "discord.js": "github:discordjs/discord.js#7f99be739aa7f11b6323a08d9435acb784aeb011",
+    "enmap": "^5.2.4",
+    "erlpack": "github:discordapp/erlpack",
     "ffmpeg": "0.0.4",
+    "libsodium-wrappers": "^0.7.6",
     "node-opus": "^0.3.3",
     "simple-youtube-api": "^5.2.1",
-    "ytdl-core": "^1.0.3",
+    "utf-8-validate": "^5.0.2",
+    "ytdl-core": "^1.0.6",
     "ytdl-core-discord": "^1.0.3",
     "zlib-sync": "^0.1.6"
   }

@@ -1,12 +1,12 @@
 # b_bot
-Basic music-playing Discord bot made for my own personal uses.
+Basic music-playing Discord bot made for own personal uses.
 ###  Installation
 Inital setup instructions assumes Ubtuntu 18.04 as OS
 ```
 git clone https://github.com/zhaobenny/b_bot.git
 cd b_bot
 sudo apt-get install curl
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 sudo apt-get install nodejs
 npm install
 ```
@@ -14,5 +14,5 @@ Copy the exampleconfig.json and rename it to config.json. Paste in your Discord 
 ### Usage
 Run the bot using
 ```
-node index.js
+npm start
 ```
