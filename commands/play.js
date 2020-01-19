@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const ytdl_d = require('ytdl-core-discord');
 const ytdl = require('ytdl-core');
 const youtubeapi = require('simple-youtube-api');
+const {getData} = require("spotify-url-info");
 
 module.exports = {
 	name: 'play',
@@ -66,7 +67,6 @@ module.exports = {
         if (!msg.member.voice.channel){
             return msg.channel.send("You're not in a voice channel!");
         }
-
         if (args.length === 0 && !msg.guild.voice){
             msg.member.voice.channel.join();
             return msg.channel.send("Joined");
@@ -76,20 +76,60 @@ module.exports = {
 
         if (!(ytdl.validateURL(song))){
                 let checkForPlaylist =  JSON.stringify(youtubeapi.util.parseURL(song))
-                if (checkForPlaylist.includes("playlist")){
+                if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(song)){
+                    var spotifyInfo = await getData(song);
+                    if (spotifyInfo.type == "track"){
+                        try {
+                            var result = await youtube.searchVideos(spotifyInfo.name + " " + spotifyInfo.artists[0].name, 1)
+                        } catch(err) {
+                            console.log(err);
+                        }
+                        song = "https://www.youtube.com/watch?v=" + result[0].id;
+                    } else if (spotifyInfo.type == "playlist"){
+                        if (spotifyInfo.tracks.items.length >= 75){
+                            return msg.channel.send("Spotify playlist too long. Youtube API quota limit will be reached");
+                        }
+                        for (let i = 0; i < spotifyInfo.tracks.items.length-1; i++){
+                            args[0] = spotifyInfo.tracks.items[i].track.name + " " + spotifyInfo.tracks.items[i].track.artists[0].name;
+                            try {
+                                var result = await youtube.searchVideos(args[0], 1);
+                            } catch (err) {
+                                console.log(err);
+                                msg.channel.send("Youtube API error. Probably max quota reached. Terminating playlist early");
+                                i = spotifyInfo.tracks.items.length + 1; // break loop early
+                            }
+                            song = "https://www.youtube.com/watch?v=" + result[0].id;
+                            server.queue.push(song);
+                        }
+                        args[0] = spotifyInfo.tracks.items[spotifyInfo.tracks.items.length-1].track.name + " " + spotifyInfo.tracks.items[spotifyInfo.tracks.items.length-1].track.artists[0].name;
+                        try {
+                            result = await youtube.searchVideos(args[0], 1);
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        song = "https://www.youtube.com/watch?v=" + result[0].id;
+                    } else {
+                        return msg.channel.send("Unsupported action on Spotify link!");
+                    }
+                }
+                else if (checkForPlaylist.includes("playlist")){
                     let playlistURL = song;
                     song = "";
-                    const playlist = await youtube.getPlaylist(playlistURL);
-                    const videos = await playlist.getVideos();
+                    try {
+                        var playlist = await youtube.getPlaylist(playlistURL);
+                        var videos = await playlist.getVideos();
+                    } catch(err) {
+                        console.log(err);
+                    }
                     for (let i = 0; i < videos.length-1; i++){
-                            song = "https://www.youtube.com/watch?v=" + videos[i].id;
-                            server.queue.push(song);
-                         }
+                        song = "https://www.youtube.com/watch?v=" + videos[i].id;
+                        server.queue.push(song);
+                    }
                     song = "https://www.youtube.com/watch?v=" + videos[videos.length-1].id;
                 } else {
-                    let result = await youtube.searchVideos(args.join(' '), 1)
+                    var result = await youtube.searchVideos(args.join(' '), 1)
                     song = "https://www.youtube.com/watch?v=" + result[0].id;
-                }
+            }
         }
 
         if (server.dispatcher){

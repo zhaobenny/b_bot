@@ -14,9 +14,10 @@ if (config.debug){
   client.on("debug", (e) => console.info(e));
 }
 
-process.on('unhandledRejection',  (reason)  => {
+process.on('unhandledRejection',  (error, reason)  => {
   let now = new Date(Date.now());
   console.log('[BOT] Uncaught Promise Rejection at ' + now.toLocaleString("en-US") + '\n' + reason)
+  console.dir(error.stack);
 });
 
 

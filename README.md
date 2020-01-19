@@ -1,5 +1,5 @@
 # b_bot
-Basic music-playing Discord bot made for own personal uses.
+Discord bot capable of playing Youtube videos and Spotify links (through Youtube) made for own personal uses.
 ###  Installation
 Inital setup instructions assumes Ubtuntu 18.04 as OS
 ```

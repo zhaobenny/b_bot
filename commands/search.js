@@ -11,8 +11,11 @@ module.exports = {
                 returnResults += i+1 + ". " + results[i].title + "\n" + "https://www.youtube.com/watch?v=" + results[i].id + "\n";
             }
             returnResults += "> Use " + client.config.prefix + "play [video link] to queue songs.```"
-            msg.channel.send(returnResults);
+            return msg.channel.send(returnResults);
         })
-        .catch(console.error);
+        .catch(err => {
+            console.log(err);
+            return msg.channel.send("Error in search. Possible Youtube API error?");
+        })
     },
 };
