@@ -74,6 +74,7 @@ module.exports = {
             return msg.channel.send("No args provided?");
         }
 
+        // TO DO: reorganize this
         if (!(ytdl.validateURL(song))){
                 let checkForPlaylist =  JSON.stringify(youtubeapi.util.parseURL(song))
                 if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(song)){

@@ -1,7 +1,7 @@
 
 {
-    "token": "token here",
-    "yt_key": "yt-api key here",
+    "token": "REPLACE THIS WITH DISCORD API TOKEN",
+    "yt_key": "REPLACE THIS WITH YOUTUBE API KEY",
     "prefix" : "$",
     "debug" : false
  }

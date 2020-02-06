@@ -5,7 +5,7 @@ const skip = require("./skip.js");
 
 module.exports = {
 	name: 'asianmusic',
-    description: 'Plays hard set Asian music playlist',
+    description: 'Play a hardcoded Kpop + Jpop music playlist from Youtube',
     aliases: ['usual','aznmusic'],
     async addPlaylists(client, msg, callback){
         await play.run(client, msg, ["https://www.youtube.com/playlist?list=PLjGLpHMZeGzKnUIS7druCuSbgCJumFpQp"]);
@@ -19,7 +19,7 @@ module.exports = {
         }
         this.addPlaylists(client, msg, function(){
             setTimeout(shuffle.run, 2000, client, msg, ["all"]);
-            setTimeout(skip.run, 5500, client, msg, [""]);
+            setTimeout(skip.run, 4500, client, msg, [""]);
         });
 	},
 };
