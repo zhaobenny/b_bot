@@ -1,5 +1,5 @@
 module.exports = (client, msg) => {
-    if (msg.content == "where benny"){
+    if (msg.guild.id == 282615940124901377 && msg.content == "where benny"){
         msg.channel.send("idk");
     }
 

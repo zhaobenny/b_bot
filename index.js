@@ -64,10 +64,8 @@ fs.readdir("./commands/", (err, files) => {
 
 client.on('shardReconnecting', id => {
     let now = new Date(Date.now());
-    client.destroy()
-    .then(client.login(config.token));
     console.log(`[BOT] Reconnecting to shard ${id} at ` + now.toLocaleString("en-US"));
-   });
+});
 
 client.on('disconnect', () => {
     let now = new Date(Date.now());
