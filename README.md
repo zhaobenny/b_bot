@@ -1,4 +1,5 @@
 # b_bot
+![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/zhaobenny/b_bot)
 Discord bot capable of playing Youtube videos and Spotify links (through Youtube) made for own personal uses.
 ###  Installation
 Inital setup instructions assumes Ubtuntu 18.04 as OS
