@@ -12,7 +12,9 @@ module.exports = {
   async playQueue (client, connection, msg) {
     const server = client.servers[msg.guild.id]
     try {
-      var getSong = await ytdl_d(server.queue[0], {format: 'audioonly', highWaterMark: 1 << 25})
+      var dispatcher = connection.play(await ytdl_d(server.queue[0]), {type: 'opus'})
+      dispatcher.setVolume(0.035)
+      server.dispatcher = dispatcher
     } catch (error) {
       console.log('[BOT] Error playing music: \n')
       console.log(error)
@@ -31,11 +33,9 @@ module.exports = {
       }
     }
 
-    var dispatcher = connection.play(getSong, {type: 'opus'})
-    dispatcher.setVolume(0.035)
-    server.dispatcher = dispatcher
 
-    dispatcher.on('end', (reason) => {
+    dispatcher.on('finish', (reason) => {
+      console.log(reason)
       server.queue.shift()
       if (server.queue[0]) {
         const args = ''
@@ -77,6 +77,7 @@ module.exports = {
     // TO DO: reorganize this
     if (!(ytdl.validateURL(song))) {
       const checkForPlaylist = JSON.stringify(youtubeapi.util.parseURL(song))
+      // Check if Spotify url and then play it
       if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(song)) {
         var spotifyInfo = await getData(song)
         if (spotifyInfo.type === 'track') {
@@ -84,6 +85,7 @@ module.exports = {
             result = await youtube.searchVideos(spotifyInfo.name + ' ' + spotifyInfo.artists[0].name, 1)
           } catch (err) {
             console.log(err)
+            return msg.channel.send('Youtube API error. Probably max quota reached.')
           }
           song = 'https://www.youtube.com/watch?v=' + result[0].id
         } else if (spotifyInfo.type === 'playlist') {
@@ -107,6 +109,7 @@ module.exports = {
             result = await youtube.searchVideos(args[0], 1)
           } catch (err) {
             console.log(err)
+            return msg.channel.send('Youtube API error. Probably max quota reached.')
           }
           song = 'https://www.youtube.com/watch?v=' + result[0].id
         } else {
