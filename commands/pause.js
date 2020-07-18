@@ -2,7 +2,7 @@ module.exports = {
   name: 'pause',
   description: 'Pauses bot if playing',
   async run (client, msg, args) {
-    const player  = await client.music.playerCollection.get(msg.guild.id);
+    const player = await client.music.playerCollection.get(msg.guild.id)
     if (!player) {
       return msg.channel.send('I am not in one?')
     }
@@ -16,5 +16,5 @@ module.exports = {
 
     await player.pause()
     return msg.react('👍')
-  },
+  }
 }

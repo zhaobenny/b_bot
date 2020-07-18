@@ -8,10 +8,6 @@ module.exports = {
   aliases: ['add'],
 
   async run (client, msg, args) {
-    client.music.on('trackPlay', () => {
-      client.commands.get('np').run(client, msg, args)
-    })
-
     // Error checking
     if (!msg.member.voice.channel) {
       return msg.channel.send("You're not in a voice channel!")
@@ -36,6 +32,10 @@ module.exports = {
           skipOnError: true
         }
       )
+      // TO DO: Figure out if this is a good idea or not
+      client.music.on('trackPlay', () => {
+        client.commands.get('np').run(client, msg, args)
+      })
     }
     var request = args[0]
     if (args.length > 1) {
