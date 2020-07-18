@@ -15,7 +15,9 @@ sudo apt-get install nodejs
 npm install
 ```
 Requires a [Lavalink server.](https://github.com/Frederikam/Lavalink)
+
 Make a copy of the exampleconfig.json and rename it to config.json.
+
 Fill in the the correct variables of the config.json.
 ### Usage
 Start the LavaLink server, then run the bot using
