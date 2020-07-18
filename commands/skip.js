@@ -11,7 +11,7 @@ module.exports = {
       return msg.channel.send('There is no queue')
     }
     if (player.queue.size === 1) {
-      await player.destory()
+      await player.destroy()
     } else {
       player.play()
       client.commands.get('np').run(client, msg, args)
