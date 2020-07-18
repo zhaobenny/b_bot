@@ -12,6 +12,7 @@
   "author": "https://github.com/zhaobenny",
   "license": "ISC",
   "dependencies": {
+    "@anonymousg/lavajs": "^3.3.1",
     "@discordjs/opus": "^0.3.2",
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
