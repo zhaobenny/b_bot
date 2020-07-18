@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const { LavaClient } = require("@anonymousg/lavajs");
 var config
 try {
    config = require('./config.json')
@@ -27,6 +28,14 @@ process.on('unhandledRejection', (error, reason) => {
 })
 
 client.on('ready', () => {
+  const nodes = [
+    {
+      host: "localhost",
+      port: 2333,
+      password: "mypassword",
+    },
+  ];
+  client.music = new LavaClient(client, nodes);
   const now = new Date(Date.now())
   console.log(`[BOT] Online as ${client.user.tag}! at ` + now.toLocaleString('en-US'))
   if (!config.debug) {
