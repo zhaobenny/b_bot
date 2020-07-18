@@ -1,6 +1,12 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const config = require('./config.json')
+var config
+try {
+   config = require('./config.json')
+} catch (e){
+  console.log('[BOT] Error in opening config.json! Is it a config json created?')
+  return console.log(e)
+}
 const Enmap = require('enmap')
 const fs = require('fs')
 client.config = config
