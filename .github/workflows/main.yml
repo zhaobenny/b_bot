@@ -23,6 +23,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install modules
-      run: npm install eslint --save-dev
+      run: npm i eslint --save-dev
     - name: Run ESLint
-      run: ./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx
+      run: eslint . --ext .js,.jsx,.ts,.tsx
