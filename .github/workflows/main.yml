@@ -23,6 +23,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install modules
-      run: npm i  --dev
+      run: npm i  --only=dev
     - name: Run ESLint
       run: eslint . --ext .js,.jsx,.ts,.tsx
