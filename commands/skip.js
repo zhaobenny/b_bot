@@ -7,10 +7,10 @@ module.exports = {
     if (!player) {
       return msg.channel.send('I am not in one?')
     }
-    if (player && player.empty) {
+    if (player && player.queue.empty) {
       return msg.channel.send('There is no queue')
     }
-    if (player.queue.size === 1) {
+    if (player.playing && player.queue.size == 0) {
       await player.destroy()
     } else {
       player.play()
