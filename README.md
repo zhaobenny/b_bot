@@ -12,6 +12,7 @@ cd b_bot
 sudo apt-get install curl
 curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 sudo apt-get install nodejs
+sudo apt-get install ffmpeg
 npm install
 ```
 Make a copy of the exampleconfig.json and rename it to config.json.

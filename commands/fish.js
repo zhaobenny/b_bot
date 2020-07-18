@@ -1,6 +1,6 @@
 module.exports = {
-  name: 'Padoru',
-  description: 'Padoru!',
+  name: 'Fish',
+  description: 'Fish!',
   run (client, msg, args) {
     msg.channel.send({
       files: [{

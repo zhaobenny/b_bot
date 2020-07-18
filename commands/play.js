@@ -12,7 +12,7 @@ module.exports = {
   async playQueue (client, connection, msg) {
     const server = client.servers[msg.guild.id]
     try {
-      var dispatcher = connection.play(await ytdl_d(server.queue[0]), {type: 'opus'})
+      var dispatcher = connection.play(await ytdl(server.queue[0], { quality: 'highestaudio', filter: 'audioonly' }))
       dispatcher.setVolume(0.035)
       server.dispatcher = dispatcher
     } catch (error) {
