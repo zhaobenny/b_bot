@@ -1,5 +1,3 @@
-const Discord = require('discord.js')
-const ytdl_d = require('ytdl-core-discord')
 const ytdl = require('ytdl-core')
 const youtubeapi = require('simple-youtube-api')
 const { getData } = require('spotify-url-info')
@@ -10,6 +8,10 @@ module.exports = {
   aliases: ['add'],
 
   async run (client, msg, args) {
+    client.music.on('trackPlay', () => {
+      client.commands.get('np').run(client, msg, args)
+    })
+
     // Error checking
     if (!msg.member.voice.channel) {
       return msg.channel.send("You're not in a voice channel!")
@@ -20,34 +22,46 @@ module.exports = {
     } else if (args.length === 0) {
       return msg.channel.send('No args provided?')
     }
-
-    const player = await client.music.spawnPlayer(
-			{
-				guild: msg.guild,
-				voiceChannel: msg.member.voice.channel,
-				textChannel: msg.channel,
-				volume: 50,
-				deafen: true
-			},
-			{
-				skipOnError: true
-			}
-		);
-
-    var song
+    var player = await client.music.playerCollection.get(msg.guild.id)
+    if (!player) {
+      player = await client.music.spawnPlayer(
+        {
+          guild: msg.guild,
+          voiceChannel: msg.member.voice.channel,
+          textChannel: msg.channel,
+          volume: 1,
+          deafen: true
+        },
+        {
+          skipOnError: true
+        }
+      )
+    }
+    var request = args[0]
+    if (args.length > 1) {
+      request = args.join(' ')
+    }
     try {
-        song =  await player.lavaSearch(song, msg.member, {
-				source: 'yt',
-				add: true
-			});
+      request = await player.lavaSearch(request, msg.member, {
+        source: 'yt',
+        add: false
+      })
     } catch (error) {
-        console.log(error)
-        return msg.channel.send('No songs found ya doofus')
+      console.log('[Bot] Search went wrong!')
+      console.log(error)
+      return msg.channel.send('No songs found ya doofus!')
     }
 
-    player.queue.add(song[0]);
-    if (!player.playing){
-      await player.play();
+    if (Array.isArray(request)) {
+      player.queue.add(request[0])
+    } else {
+      await player.queue.add(request.tracks)
     }
-  },
+
+    if (!player.playing) {
+      await player.play()
+    }
+
+    return msg.react('👍')
+  }
 }
