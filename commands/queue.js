@@ -21,5 +21,5 @@ module.exports = {
     } else {
       return msg.channel.send('there is no queue')
     }
-  },
+  }
 }

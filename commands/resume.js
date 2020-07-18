@@ -6,7 +6,7 @@ module.exports = {
     if (!msg.guild.voice) {
       return msg.channel.send('I am not in one?')
     }
-    if (server && server.queue && server.queue.length == 0) {
+    if (server && server.queue && server.queue.length === 0) {
       return msg.channel.send('There is no queue')
     }
 
@@ -16,5 +16,5 @@ module.exports = {
 
     server.dispatcher.resume()
     return msg.react('👍')
-  },
+  }
 }

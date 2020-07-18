@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const ytdl_d = require('ytdl-core-discord')
 const ytdl = require('ytdl-core')
-const youtubeapi = require('simple-youtube-api')
+const YoutubeApi = require('simple-youtube-api')
 const { getData } = require('spotify-url-info')
 
 module.exports = {
@@ -24,15 +24,14 @@ module.exports = {
         const args = ''
         client.commands.get('np').run(client, msg, args)
         this.playQueue(client, connection, msg)
-        return;
+        return
       } else {
         server.dispatcher = null
         const embed = new Discord.MessageEmbed()
           .setTitle('Queue ended!')
-        return msg.channel.send({embed})
+        return msg.channel.send({ embed })
       }
     }
-
 
     dispatcher.on('finish', () => {
       server.queue.shift()
@@ -53,11 +52,10 @@ module.exports = {
       console.log(error)
       console.log('\n')
     })
-
   },
 
   async run (client, msg, args) {
-    const youtube = new youtubeapi(client.config.yt_key)
+    const youtube = new YoutubeApi(client.config.yt_key)
     var result = ''
     var song = String(args[0])
 
@@ -122,8 +120,7 @@ module.exports = {
         } else {
           return msg.channel.send('Unsupported action on Spotify link!')
         }
-      }
-      else if (checkForPlaylist.includes('playlist')) {
+      } else if (checkForPlaylist.includes('playlist')) {
         // Check if Youtube playlist
         const playlistURL = song
         song = ''
@@ -150,12 +147,12 @@ module.exports = {
       return msg.react('👍')
     }
 
-    msg.member.voice.channel.join().then(connection =>{
+    msg.member.voice.channel.join().then(connection => {
       server.queue.push(song)
       client.commands.get('np').run(client, msg, args)
       module.exports.playQueue(client, connection, msg)
     })
 
     return true
-  },
+  }
 }
