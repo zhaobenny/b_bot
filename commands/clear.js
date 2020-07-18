@@ -7,7 +7,7 @@ module.exports = {
     if (!player) {
       return msg.react('I am not in one?')
     }
-    await player.queue.clearQueue()
+    await player.queue.clearQueue(1)
     return msg.react('👍')
   }
 }
