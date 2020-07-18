@@ -12,16 +12,14 @@ module.exports = {
     if (player && player.queue.empty) {
       return msg.channel.send('There is no queue')
     }
-
-    msg.channel.messages.fetch().then(msgFetched => {
-      if (msgFetched.first().author.bot) {
-        if (msgFetched.first().embeds[0] && msgFetched.first().embeds[0].author.name == 'Now Playing') {
-          msgFetched.first().delete(100)
+    msg.channel.messages.fetch({ limit: 1 })
+      .then(message => {
+        if (message.first().author.bot) {
+          message.first().delete()
         }
-      }
-    }).catch(error => {
-      console.log('[BOT] Error occured while fetching: ' + error)
-    })
+      })
+      .catch(console.error)
+
     const nowPlaying = player.queue.toArray()[0]
     const embed = new Discord.MessageEmbed()
       .setAuthor('Now Playing')
