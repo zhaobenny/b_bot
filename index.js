@@ -32,7 +32,7 @@ client.on('ready', () => {
     {
       host: "localhost",
       port: 2333,
-      password: "mypassword",
+      password: config.javalink_password,
     },
   ];
   client.music = new LavaClient(client, nodes);
