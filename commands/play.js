@@ -13,7 +13,7 @@ module.exports = {
     const server = client.servers[msg.guild.id]
     try {
       var dispatcher = connection.play(await ytdl(server.queue[0], { quality: 'highestaudio', filter: 'audioonly' }))
-      dispatcher.setVolume(0.035)
+      dispatcher.setVolume(0.40)
       server.dispatcher = dispatcher
     } catch (error) {
       console.log('[BOT] Error playing music: \n')
@@ -34,14 +34,12 @@ module.exports = {
     }
 
 
-    dispatcher.on('finish', (reason) => {
-      console.log(reason)
+    dispatcher.on('finish', () => {
       server.queue.shift()
       if (server.queue[0]) {
         const args = ''
         client.commands.get('np').run(client, msg, args)
         this.playQueue(client, connection, msg)
-
       } else {
         server.dispatcher = null
         const embed = new Discord.MessageEmbed()
@@ -49,10 +47,20 @@ module.exports = {
         return msg.channel.send({ embed })
       }
     })
+
+    dispatcher.on('error', (error) => {
+      console.log('[BOT] Error in dispatcher!: \n')
+      console.log(error)
+      console.log('\n')
+    })
+
   },
 
   async run (client, msg, args) {
     const youtube = new youtubeapi(client.config.yt_key)
+    var result = ''
+    var song = String(args[0])
+
     if (!client.servers[msg.guild.id]) {
       client.servers[msg.guild.id] = {
         queue: [],
@@ -61,9 +69,8 @@ module.exports = {
     }
 
     const server = client.servers[msg.guild.id]
-    var result = ''
 
-    let song = String(args[0])
+    // Error checking
     if (!msg.member.voice.channel) {
       return msg.channel.send("You're not in a voice channel!")
     }
@@ -77,8 +84,8 @@ module.exports = {
     // TO DO: reorganize this
     if (!(ytdl.validateURL(song))) {
       const checkForPlaylist = JSON.stringify(youtubeapi.util.parseURL(song))
-      // Check if Spotify url and then play it
       if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(song)) {
+        // Check if Spotify url and then play it
         var spotifyInfo = await getData(song)
         if (spotifyInfo.type === 'track') {
           try {
@@ -117,6 +124,7 @@ module.exports = {
         }
       }
       else if (checkForPlaylist.includes('playlist')) {
+        // Check if Youtube playlist
         const playlistURL = song
         song = ''
         try {
@@ -131,6 +139,7 @@ module.exports = {
         }
         song = 'https://www.youtube.com/watch?v=' + videos[videos.length - 1].id
       } else {
+        // Else just do a Youtube search
         result = await youtube.searchVideos(args.join(' '), 1)
         song = 'https://www.youtube.com/watch?v=' + result[0].id
       }
