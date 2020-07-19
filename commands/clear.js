@@ -8,6 +8,7 @@ module.exports = {
       return msg.react('I am not in one?')
     }
     await player.queue.clearQueue(1)
+    await player.destroy() // temporary because it doesnt do the behavior I want
     return msg.react('👍')
   }
 }
