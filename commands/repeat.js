@@ -12,10 +12,10 @@ module.exports = {
       return msg.channel.send('There is no queue')
     }
 
-    player.queue.toggleRepeat()
-    if (player.queue.repeatQueue) {
+    if (player.queue.repeatQueue === false && player.queue.toggleRepeat('queue')) {
       return msg.channel.send('Queue repeating')
     } else {
+      player.queue.repeatQueue = false
       return msg.channel.send('Queue not repeating')
     }
   }
