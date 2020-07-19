@@ -17,11 +17,14 @@ module.exports = {
 
     play.run(client, msg, ['https://www.youtube.com/playlist?list=PLjGLpHMZeGzKnUIS7druCuSbgCJumFpQp'])
     await snooze(2000);
+    player = await client.music.playerCollection.get(msg.guild.id);
+    player.pause()
     play.run(client, msg, ['https://www.youtube.com/playlist?list=PL1R1F6p67q33siReKhbAlbdhZZhjTch8F'])
-    await snooze(2000);
+    await snooze(4000);
     shuffle.run(client, msg, [''])
     await snooze(3000);
     skip.run(client, msg, [''])
+    player.resume()
     return msg.react('👍')
   }
 }

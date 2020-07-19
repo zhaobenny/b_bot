@@ -55,7 +55,7 @@ client.on('ready', () => {
         const embed = new Discord.MessageEmbed()
         .setAuthor('Now Playing')
         .setTitle(track.title)
-        .setURL(track.url)
+        .setURL(track.uri)
         .setColor(0x00AE86)
         return message.first().channel.send({ embed })
       }).catch(console.error)
