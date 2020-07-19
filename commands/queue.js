@@ -9,11 +9,11 @@ module.exports = {
       var queue = player.queue.toArray()
       msg.react('👍')
       var returnQueueText = '```Queue\n'
-      for (let i = 0; i < queue.length && i < 10; i++) {
+      for (let i = 0; i < (player.queue.size) && i < 10; i++) {
         var song = queue[i]
-        returnQueueText += i + 1 + '. ' + song.title + '\n'
+        returnQueueText += (i + 1) + '. ' + song.title + '\n'
       }
-      returnQueueText += 'The queue is ' + player.queue.size + ' songs. Also yell at Benny to make an better queue command.'
+      returnQueueText += 'The queue is ' + (player.queue.size) + ' songs. Also yell at Benny to make an better queue command.'
       returnQueueText = returnQueueText + '```'
       msg.channel.send(returnQueueText)
     } else {
