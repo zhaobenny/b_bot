@@ -45,6 +45,15 @@ client.on('ready', () => {
     console.log('[BOT] Lavalink node error: \n' + error)
   });
 
+  client.music.on('nodeReconnect', () => {
+    console.log('[BOT] Node reconnected!')
+  });
+
+
+  client.music.on('nodeClose', (error) => {
+    console.log('[BOT] ' + error)
+  })
+
 	client.music.on('trackPlay', (track, player) => {
     client.channels.fetch(config.music_channel)
     .then(channel => channel.messages.fetch({ limit: 1 })
