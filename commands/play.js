@@ -25,10 +25,11 @@ module.exports = {
           guild: msg.guild,
           voiceChannel: msg.member.voice.channel,
           textChannel: msg.channel,
-          volume: 1,
+          volume: 2,
           deafen: true
         },
         {
+          repeatQueue: true,
           skipOnError: true
         }
       )
