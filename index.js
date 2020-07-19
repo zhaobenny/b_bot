@@ -36,6 +36,34 @@ client.on('ready', () => {
     },
   ];
   client.music = new LavaClient(client, nodes);
+
+  client.music.on('nodeSuccess', () => {
+    console.log('[BOT] Connected to Lavalink node')
+  });
+
+  client.music.on('nodeError', (error) => {
+    console.log('[BOT] Lavalink node error: \n' + error)
+  });
+
+	client.music.on('trackPlay', (track, player) => {
+    client.channels.fetch(config.music_channel)
+    .then(channel => channel.messages.fetch({ limit: 1 })
+      .then(message => {
+        if (message.first().author.bot && message.first().embeds[0] && message.first().embeds[0].author.name == 'Now Playing') {
+          message.first().delete()
+        }
+        const embed = new Discord.MessageEmbed()
+        .setAuthor('Now Playing')
+        .setTitle(track.title)
+        .setURL(track.url)
+        .setColor(0x00AE86)
+        return message.first().channel.send({ embed })
+      }).catch(console.error)
+    )
+    .catch(console.error)
+	});
+
+
   const now = new Date(Date.now())
   console.log(`[BOT] Online as ${client.user.tag}! at ` + now.toLocaleString('en-US'))
   if (!config.debug) {
