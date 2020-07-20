@@ -10,8 +10,8 @@ sudo apt install build-essential
 git clone https://github.com/zhaobenny/b_bot.git
 cd b_bot
 sudo apt-get install curl
-curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-sudo apt-get install nodejs
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
 npm install
 ```
 Requires a [Lavalink server.](https://github.com/Frederikam/Lavalink)
