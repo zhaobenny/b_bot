@@ -42,7 +42,7 @@ client.on('ready', () => {
   });
 
   client.music.on('nodeError', (error) => {
-    console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US') + ': \n' + error.toString());
+    console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US') + ': \n' + error.toString())
   });
 
   client.music.on('nodeReconnect', () => {
@@ -51,7 +51,7 @@ client.on('ready', () => {
 
 
   client.music.on('nodeClose', (error) => {
-    console.log('[BOT] ' + error)
+    console.log('[BOT] Node shut down! \n' + error.toString())
   })
 
 	client.music.on('trackPlay', (track, player) => {
