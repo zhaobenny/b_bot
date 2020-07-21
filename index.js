@@ -38,15 +38,15 @@ client.on('ready', () => {
   client.music = new LavaClient(client, nodes);
 
   client.music.on('nodeSuccess', () => {
-    console.log('[BOT] Connected to Lavalink node')
+    console.log('[BOT] Connected to Lavalink node at ' +  now.toLocaleString('en-US'))
   });
 
   client.music.on('nodeError', (error) => {
-    console.log('[BOT] Lavalink node error: \n' + error)
+    console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US') + ': \n' + error.toString());
   });
 
   client.music.on('nodeReconnect', () => {
-    console.log('[BOT] Node reconnected!')
+    console.log('[BOT] Node reconnected at ' + now.toLocaleString('en-US') + ' !')
   });
 
 
