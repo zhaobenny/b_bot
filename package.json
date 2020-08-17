@@ -14,7 +14,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
     "bufferutil": "^4.0.1",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.3.1",
     "enmap": "^5.6.1",
     "ffmpeg": "0.0.4",
     "libsodium-wrappers": "^0.7.8",
