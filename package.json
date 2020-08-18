@@ -6,12 +6,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"There is no test.\" && exit 1"
+    "test": "echo \"There is no test.\" && exit 0"
   },
   "keywords": [],
   "author": "https://github.com/zhaobenny",
   "license": "ISC",
   "dependencies": {
+    "@anonymousg/lavajs": "^3.3.1",
     "@discordjs/opus": "^0.3.2",
     "bufferutil": "^4.0.1",
     "discord.js": "^12.3.1",
@@ -22,12 +23,11 @@
     "spotify-uri": "^2.1.0",
     "spotify-url-info": "^1.4.0",
     "utf-8-validate": "^5.0.2",
-    "ytdl-core": "^3.2.1",
-    "ytdl-core-discord": "^1.2.1",
+    "ytdl-core": "^2.1.7",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "eslint": "^7.7.0",
+    "eslint": "^7.5.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",

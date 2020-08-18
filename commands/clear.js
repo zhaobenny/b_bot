@@ -2,13 +2,13 @@ module.exports = {
   name: 'clear',
   description: 'Clear queue of songs',
   aliases: ['c', 'empty'],
-  run (client, msg, args) {
-    const server = client.servers[msg.guild.id]
-    if (server && server.queue && server.queue.length !== 0) {
-      server.queue = [server.queue.shift()]
-      return msg.react('👍')
-    } else {
-      msg.channel.send('there is no queue')
+  async run (client, msg, args) {
+    const player = await client.music.playerCollection.get(msg.guild.id)
+    if (!player) {
+      return msg.react('I am not in one?')
     }
+    await player.queue.clearQueue(1)
+    await player.destroy() // temporary because it doesnt do the behavior I want
+    return msg.react('👍')
   }
 }

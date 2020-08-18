@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const { LavaClient } = require("@anonymousg/lavajs");
 var config
 try {
    config = require('./config.json')
@@ -27,6 +28,51 @@ process.on('unhandledRejection', (error, reason) => {
 })
 
 client.on('ready', () => {
+  const nodes = [
+    {
+      host: "localhost",
+      port: 2333,
+      password: config.javalink_password,
+    },
+  ];
+  client.music = new LavaClient(client, nodes);
+
+  client.music.on('nodeSuccess', () => {
+    console.log('[BOT] Connected to Lavalink node at ' +  now.toLocaleString('en-US'))
+  });
+
+  client.music.on('nodeError', (error) => {
+    console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US') + ': \n' + error.toString())
+  });
+
+  client.music.on('nodeReconnect', () => {
+    console.log('[BOT] Node reconnected at ' + now.toLocaleString('en-US') + ' !')
+  });
+
+
+  client.music.on('nodeClose', (error) => {
+    console.log('[BOT] Node shut down! \n' + error.toString())
+  })
+
+	client.music.on('trackPlay', (track, player) => {
+    client.channels.fetch(config.music_channel)
+    .then(channel => channel.messages.fetch({ limit: 1 })
+      .then(message => {
+        if (message.first().author.bot && message.first().embeds[0] && message.first().embeds[0].author.name == 'Now Playing') {
+          message.first().delete()
+        }
+        const embed = new Discord.MessageEmbed()
+        .setAuthor('Now Playing')
+        .setTitle(track.title)
+        .setURL(track.uri)
+        .setColor(0x00AE86)
+        return message.first().channel.send({ embed })
+      }).catch(console.error)
+    )
+    .catch(console.error)
+	});
+
+
   const now = new Date(Date.now())
   console.log(`[BOT] Online as ${client.user.tag}! at ` + now.toLocaleString('en-US'))
   if (!config.debug) {

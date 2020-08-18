@@ -1,20 +1,20 @@
 module.exports = {
   name: 'pause',
   description: 'Pauses bot if playing',
-  run (client, msg, args) {
-    const server = client.servers[msg.guild.id]
-    if (!msg.guild.voice) {
+  async run (client, msg, args) {
+    const player = await client.music.playerCollection.get(msg.guild.id)
+    if (!player) {
       return msg.channel.send('I am not in one?')
     }
-    if (server && server.queue && server.queue.length === 0) {
+    if (player && player.queue.empty) {
       return msg.channel.send('There is no queue')
     }
 
-    if (server.dispatcher.paused) {
+    if (player.paused) {
       return msg.channel.send('Already paused')
     }
 
-    server.dispatcher.pause()
+    await player.pause()
     return msg.react('👍')
   }
 }

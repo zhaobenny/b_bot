@@ -2,18 +2,13 @@ module.exports = {
   name: 'DC',
   description: 'Bot will DC from voice channel',
   aliases: ['leave', 'disconnect', 'reset', 'stop'],
-  run (client, msg, args) {
-    if (!msg.guild.voice) {
+  async run (client, msg, args) {
+    const player = await client.music.playerCollection.get(msg.guild.id)
+    if (!player) {
       return msg.channel.send('I am not in one?')
     }
-    if (msg.guild.voice.connection) {
-      const server = client.servers[msg.guild.id]
-      server.queue = []
-      server.dispatcher = null
-      msg.guild.voice.connection.disconnect()
-      return msg.react('👍')
-    } else {
-      return msg.channel.send('I am not in one?')
-    }
+
+    await player.destroy()
+    return msg.react('👍')
   }
 }

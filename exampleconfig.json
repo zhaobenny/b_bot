@@ -2,6 +2,7 @@
 {
     "token": "REPLACE THIS WITH DISCORD API TOKEN",
     "yt_key": "REPLACE THIS WITH YOUTUBE API KEY",
+    "javalink_password": "REPLACE THIS WITH PW",
     "prefix" : "$",
     "debug" : false
  }

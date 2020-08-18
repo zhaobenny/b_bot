@@ -2,21 +2,22 @@ module.exports = {
   name: 'skip',
   description: 'Skip song',
   aliases: ['next'],
-  run (client, msg, args) {
-    const server = client.servers[msg.guild.id]
-    if (!msg.member.voice.channel) {
-      return msg.channel.send("You're not in a voice channel!")
-    }
-    if (!msg.guild.voice.connection) {
+  async run (client, msg, args) {
+    const player = await client.music.playerCollection.get(msg.guild.id)
+    if (!player) {
       return msg.channel.send('I am not in one?')
     }
-    if (!server || !server.queue || server.queue.length === 0) {
+
+    if (player.playing && player.queue.empty) {
+      await player.destroy()
+    }
+
+    if (player.queue.empty) {
       return msg.channel.send('There is no queue')
+    } else {
+      player.play()
+      client.commands.get('np').run(client, msg, args)
     }
-    if (server.dispatcher.paused) {
-      return msg.channel.send("Can't skip when queue is paused")
-    }
-    server.dispatcher.end()
     return msg.react('👍')
   }
 }

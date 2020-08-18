@@ -1,5 +1,3 @@
-const Discord = require('discord.js')
-const ytdl_d = require('ytdl-core-discord')
 const ytdl = require('ytdl-core')
 const YoutubeApi = require('simple-youtube-api')
 const { getData } = require('spotify-url-info')
@@ -9,65 +7,7 @@ module.exports = {
   description: 'Plays music from YT links',
   aliases: ['add'],
 
-  async playQueue (client, connection, msg) {
-    const server = client.servers[msg.guild.id]
-    try {
-      var dispatcher = connection.play(ytdl(server.queue[0]))
-      dispatcher.setVolume(0.40)
-      server.dispatcher = dispatcher
-    } catch (error) {
-      console.log('[BOT] Error playing music: \n')
-      console.log(error)
-      console.log('\n')
-      server.queue.shift()
-      if (server.queue[0]) {
-        const args = ''
-        client.commands.get('np').run(client, msg, args)
-        this.playQueue(client, connection, msg)
-        return
-      } else {
-        server.dispatcher = null
-        const embed = new Discord.MessageEmbed()
-          .setTitle('Queue ended!')
-        return msg.channel.send({ embed })
-      }
-    }
-
-    dispatcher.on('finish', () => {
-      server.queue.shift()
-      if (server.queue[0]) {
-        const args = ''
-        client.commands.get('np').run(client, msg, args)
-        this.playQueue(client, connection, msg)
-      } else {
-        server.dispatcher = null
-        const embed = new Discord.MessageEmbed()
-          .setTitle('Queue ended!')
-        return msg.channel.send({ embed })
-      }
-    })
-
-    dispatcher.on('error', (error) => {
-      console.log('[BOT] Error in dispatcher!: \n')
-      console.log(error)
-      console.log('\n')
-    })
-  },
-
   async run (client, msg, args) {
-    const youtube = new YoutubeApi(client.config.yt_key)
-    var result = ''
-    var song = String(args[0])
-
-    if (!client.servers[msg.guild.id]) {
-      client.servers[msg.guild.id] = {
-        queue: [],
-        dispatcher: null
-      }
-    }
-
-    const server = client.servers[msg.guild.id]
-
     // Error checking
     if (!msg.member.voice.channel) {
       return msg.channel.send("You're not in a voice channel!")
@@ -78,81 +18,47 @@ module.exports = {
     } else if (args.length === 0) {
       return msg.channel.send('No args provided?')
     }
-
-    // TO DO: reorganize this
-    if (!(ytdl.validateURL(song))) {
-      const checkForPlaylist = JSON.stringify(youtubeapi.util.parseURL(song))
-      if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(song)) {
-        // Check if Spotify url and then play it
-        var spotifyInfo = await getData(song)
-        if (spotifyInfo.type === 'track') {
-          try {
-            result = await youtube.searchVideos(spotifyInfo.name + ' ' + spotifyInfo.artists[0].name, 1)
-          } catch (err) {
-            console.log(err)
-            return msg.channel.send('Youtube API error. Probably max quota reached.')
-          }
-          song = 'https://www.youtube.com/watch?v=' + result[0].id
-        } else if (spotifyInfo.type === 'playlist') {
-          if (spotifyInfo.tracks.items.length >= 75) {
-            return msg.channel.send('Spotify playlist too long. Youtube API quota limit will be reached')
-          }
-          for (let i = 0; i < spotifyInfo.tracks.items.length - 1; i++) {
-            args[0] = spotifyInfo.tracks.items[i].track.name + ' ' + spotifyInfo.tracks.items[i].track.artists[0].name
-            try {
-              result = await youtube.searchVideos(args[0], 1)
-            } catch (err) {
-              console.log(err)
-              msg.channel.send('Youtube API error. Probably max quota reached. Terminating playlist early')
-              i = spotifyInfo.tracks.items.length + 1 // break loop early
-            }
-            song = 'https://www.youtube.com/watch?v=' + result[0].id
-            server.queue.push(song)
-          }
-          args[0] = spotifyInfo.tracks.items[spotifyInfo.tracks.items.length - 1].track.name + ' ' + spotifyInfo.tracks.items[spotifyInfo.tracks.items.length - 1].track.artists[0].name
-          try {
-            result = await youtube.searchVideos(args[0], 1)
-          } catch (err) {
-            console.log(err)
-            return msg.channel.send('Youtube API error. Probably max quota reached.')
-          }
-          song = 'https://www.youtube.com/watch?v=' + result[0].id
-        } else {
-          return msg.channel.send('Unsupported action on Spotify link!')
+    var player = await client.music.playerCollection.get(msg.guild.id)
+    if (!player) {
+      player = await client.music.spawnPlayer(
+        {
+          guild: msg.guild,
+          voiceChannel: msg.member.voice.channel,
+          textChannel: msg.channel,
+          volume: 2,
+          deafen: true
+        },
+        {
+          repeatQueue: true,
+          skipOnError: true
         }
-      } else if (checkForPlaylist.includes('playlist')) {
-        // Check if Youtube playlist
-        const playlistURL = song
-        song = ''
-        try {
-          var playlist = await youtube.getPlaylist(playlistURL)
-          var videos = await playlist.getVideos()
-        } catch (err) {
-          console.log(err)
-        }
-        for (let i = 0; i < videos.length - 1; i++) {
-          song = 'https://www.youtube.com/watch?v=' + videos[i].id
-          server.queue.push(song)
-        }
-        song = 'https://www.youtube.com/watch?v=' + videos[videos.length - 1].id
-      } else {
-        // Else just do a Youtube search
-        result = await youtube.searchVideos(args.join(' '), 1)
-        song = 'https://www.youtube.com/watch?v=' + result[0].id
-      }
+      )
+    }
+    var request = args[0]
+    if (args.length > 1) {
+      request = args.join(' ')
+    }
+    try {
+      request = await player.lavaSearch(request, msg.member, {
+        source: 'yt',
+        add: false
+      })
+    } catch (error) {
+      console.log('[Bot] Search went wrong!')
+      console.log(error)
+      return msg.channel.send('No songs found ya doofus!')
     }
 
-    if (server.dispatcher) {
-      server.queue.push(song)
-      return msg.react('👍')
+    if (Array.isArray(request)) {
+      player.queue.add(request[0])
+    } else {
+      await player.queue.add(request.tracks)
     }
 
-    msg.member.voice.channel.join().then(connection => {
-      server.queue.push(song)
-      client.commands.get('np').run(client, msg, args)
-      module.exports.playQueue(client, connection, msg)
-    })
+    if (!player.playing) {
+      await player.play()
+    }
 
-    return true
+    return msg.react('👍')
   }
 }
