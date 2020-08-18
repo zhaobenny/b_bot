@@ -1,5 +1,5 @@
 const ytdl = require('ytdl-core')
-const youtubeapi = require('simple-youtube-api')
+const YoutubeApi = require('simple-youtube-api')
 const { getData } = require('spotify-url-info')
 
 module.exports = {
