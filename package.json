@@ -23,7 +23,7 @@
     "spotify-uri": "^2.1.0",
     "spotify-url-info": "^1.4.0",
     "utf-8-validate": "^5.0.2",
-    "ytdl-core": "^2.1.7",
+    "ytdl-core": "^3.2.2",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
