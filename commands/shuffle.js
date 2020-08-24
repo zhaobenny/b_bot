@@ -10,7 +10,7 @@ module.exports = {
           try {
             await player.queue.moveTrack(i, random)
           } catch (error){
-            // sometimes it goes too fast, use faster way
+            // TODO: sometimes it goes too fast, use faster way
             player.queue.moveTrack(i, i * Math.random())
           }
     }

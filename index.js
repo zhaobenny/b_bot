@@ -1,7 +1,8 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const { LavaClient } = require("@anonymousg/lavajs");
-var config
+var config;
+
 try {
    config = require('./config.json')
 } catch (e){

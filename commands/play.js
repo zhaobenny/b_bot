@@ -1,7 +1,3 @@
-const ytdl = require('ytdl-core')
-const YoutubeApi = require('simple-youtube-api')
-const { getData } = require('spotify-url-info')
-
 module.exports = {
   name: 'play',
   description: 'Plays music from YT links',

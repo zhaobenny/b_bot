@@ -13,7 +13,7 @@ module.exports = {
       return msg.channel.send('There is already a queue')
     }
     const snooze = ms => new Promise(resolve => setTimeout(resolve, ms));
-    // Simulate delays
+    // TODO: Find better way to concurrent
 
     play.run(client, msg, ['https://www.youtube.com/playlist?list=PLjGLpHMZeGzKnUIS7druCuSbgCJumFpQp'])
     await snooze(2000);

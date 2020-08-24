@@ -1,4 +1,3 @@
-
 module.exports = {
   name: 'reload',
   description: 'reload a command file',
