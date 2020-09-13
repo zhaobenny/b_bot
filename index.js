@@ -13,6 +13,7 @@ const Enmap = require('enmap')
 const fs = require('fs')
 client.config = config
 client.servers = {}
+client.cooldowns = new Discord.Collection()
 
 client.on('error', (e) => console.error(e))
 client.on('warn', (e) => console.warn(e))
@@ -43,16 +44,15 @@ client.on('ready', () => {
   });
 
   client.music.on('nodeError', (error) => {
-    console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US') + ': \n' + error.toString())
+    console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US'))
   });
 
   client.music.on('nodeReconnect', () => {
     console.log('[BOT] Node reconnected at ' + now.toLocaleString('en-US') + ' !')
   });
 
-
   client.music.on('nodeClose', (error) => {
-    console.log('[BOT] Node shut down! \n' + error.toString())
+    console.log('[BOT] Node shut down! \n' + error)
   })
 
 	client.music.on('trackPlay', (track, player) => {
@@ -72,7 +72,6 @@ client.on('ready', () => {
     )
     .catch(console.error)
 	});
-
 
   const now = new Date(Date.now())
   console.log(`[BOT] Online as ${client.user.tag}! at ` + now.toLocaleString('en-US'))
@@ -109,6 +108,7 @@ fs.readdir('./commands/', (err, files) => {
     if (client.config.debug) {
       console.log('[BOT] Loading ' + commandName + '.js')
     }
+    client.cooldowns.set(commandName, new Discord.Collection());
     client.commands.set(commandName, commandFile)
   })
 })

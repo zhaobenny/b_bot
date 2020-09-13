@@ -15,5 +15,17 @@ module.exports = (client, msg) => {
     if (!command){
         return msg.channel.send('wtf like thats not a command')
     }
+    const now = Date.now();
+    const timestamps = client.cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 0) * 1000;
+    if (timestamps.has(msg.author.id)) {
+        const expirationTime = timestamps.get(msg.author.id) + cooldownAmount;
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000 / 60;
+            return msg.reply(`wait ${timeLeft.toFixed(0)} more minute(s) before using  the \`${command.name}\` command.`);
+        }
+    }
+    timestamps.set(msg.author.id, now);
     command.run(client, msg, args);
+    setTimeout(() => timestamps.delete(msg.author.id), cooldownAmount);
 };

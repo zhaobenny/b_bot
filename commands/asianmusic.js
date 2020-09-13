@@ -15,7 +15,7 @@ module.exports = {
     const snooze = ms => new Promise(resolve => setTimeout(resolve, ms));
     // TODO: Find better way to concurrent
 
-    play.run(client, msg, ['https://www.youtube.com/playlist?list=PLjGLpHMZeGzKnUIS7druCuSbgCJumFpQp'])
+    play.run(client, msg, ['https://www.youtube.com/playlist?list=PLHxUjmov4Un9gTnZH1AxJ0CBh0Befxe1G'])
     await snooze(2000);
     player = await client.music.playerCollection.get(msg.guild.id);
     player.pause()
