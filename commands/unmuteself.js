@@ -1,7 +1,7 @@
 module.exports = {
   name: 'unmuteself',
   description: 'Unmutes self in the Discord server',
-  aliases: ['ums'],
+  aliases: ['unmute, ums'],
   cooldown: 3600,
   async run (client, msg, args) {
     if (!msg.member.voice.channel) {
