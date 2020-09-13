@@ -1,6 +1,6 @@
 
 module.exports = {
-  name: 'Screenshare',
+  name: 'screenshare',
   description: '[Deprecated] Returns the outdated method of screenshare link to current voice channel one is in',
   aliases: ['sharescreen', 'ss'],
   run (client, msg, args) {

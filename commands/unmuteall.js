@@ -1,10 +1,10 @@
 module.exports = {
   name: 'unmuteall',
-  description: 'Unmutes everyone in the Discord server',
+  description: 'Unmutes everyone in a Discord voice channel',
   aliases: ['uma'],
   async run (client, msg, args) {
     if (!(msg.member.hasPermission('MUTE_MEMBERS'))) {
-      return msg.channel.send("You don't have unmute permission! Try using " + client.config.prefix + 'unmuteself if needed')
+      return msg.channel.send(`You don't have unmute permission! Try using ${client.config.prefix}unmuteself if needed`)
     }
 
     if (!msg.member.voice.channel) {

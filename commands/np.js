@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 module.exports = {
-  name: 'now playing',
+  name: 'nowplaying',
   description: 'Show what is playing',
   aliases: ['nowplaying', 'current'],
   async run (client, msg, args) {

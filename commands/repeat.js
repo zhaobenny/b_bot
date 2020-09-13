@@ -1,6 +1,6 @@
 module.exports = {
   name: 'repeat',
-  description: 'Toggled repeat queue if playing',
+  description: 'Toggles repeat queue if playing',
   aliases: ['loop'],
 
   async run (client, msg, args) {

@@ -1,6 +1,6 @@
 module.exports = {
   name: 'skip',
-  description: 'Skip song',
+  description: 'Skips song',
   aliases: ['next'],
   async run (client, msg, args) {
     const player = await client.music.playerCollection.get(msg.guild.id)

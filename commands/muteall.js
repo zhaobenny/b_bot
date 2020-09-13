@@ -12,7 +12,7 @@ module.exports = {
     }
 
     const voiceChannel = msg.member.voice.channel
-    for (let guildMember of voiceChannel.members) {
+    for (const guildMember of voiceChannel.members) {
       guildMember[1].voice.setMute(true, 'Mute all command')
     }
 

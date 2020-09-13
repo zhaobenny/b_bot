@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Padoru',
+  name: 'padoru',
   description: 'Padoru!',
   run (client, msg, args) {
     msg.channel.send({

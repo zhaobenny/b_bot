@@ -1,6 +1,6 @@
 module.exports = {
   name: 'reload',
-  description: 'reload a command file',
+  description: 'Reloads a command file without restart',
   run (client, msg, args) {
     if (msg.author.id !== '269670939480817664') {
       return msg.channel.send('Dev only command')

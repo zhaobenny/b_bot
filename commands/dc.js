@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'DC',
+  name: 'dc',
   description: 'Bot will DC from voice channel',
   aliases: ['leave', 'disconnect', 'reset', 'stop'],
   async run (client, msg, args) {
