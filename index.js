@@ -37,22 +37,23 @@ client.on('ready', () => {
       password: config.javalink_password
     }
   ]
+
   client.music = new LavaClient(client, nodes)
 
   client.music.on('nodeSuccess', () => {
     console.log('[BOT] Connected to Lavalink node at ' + now.toLocaleString('en-US'))
   })
 
-  client.music.on('nodeError', (error) => {
+  client.music.on('nodeError', () => {
     console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US'))
   })
 
   client.music.on('nodeReconnect', () => {
-    console.log('[BOT] Node reconnected at ' + now.toLocaleString('en-US') + ' !')
+    console.log('[BOT] Node reconnected at ' + now.toLocaleString('en-US'))
   })
 
-  client.music.on('nodeClose', (error) => {
-    console.log('[BOT] Node shut down! \n' + error)
+  client.music.on('nodeClose', () => {
+    console.log('[BOT] Node shut down! \n')
   })
 
   client.music.on('trackPlay', (track, player) => {
