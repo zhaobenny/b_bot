@@ -1,13 +1,13 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const { LavaClient } = require("@anonymousg/lavajs");
-var config;
+const { LavaClient } = require('@anonymousg/lavajs')
+var config
 
 try {
-   config = require('./config.json')
-} catch (e){
+  config = require('./config.json')
+} catch (e) {
   console.log('[BOT] Error in opening config.json! Is it a config json created?')
-  return console.log(e)
+  console.log(e)
 }
 const Enmap = require('enmap')
 const fs = require('fs')
@@ -32,46 +32,46 @@ process.on('unhandledRejection', (error, reason) => {
 client.on('ready', () => {
   const nodes = [
     {
-      host: "localhost",
+      host: 'localhost',
       port: 2333,
-      password: config.javalink_password,
-    },
-  ];
-  client.music = new LavaClient(client, nodes);
+      password: config.javalink_password
+    }
+  ]
+  client.music = new LavaClient(client, nodes)
 
   client.music.on('nodeSuccess', () => {
-    console.log('[BOT] Connected to Lavalink node at ' +  now.toLocaleString('en-US'))
-  });
+    console.log('[BOT] Connected to Lavalink node at ' + now.toLocaleString('en-US'))
+  })
 
   client.music.on('nodeError', (error) => {
     console.log('[BOT] Lavalink node error at ' + now.toLocaleString('en-US'))
-  });
+  })
 
   client.music.on('nodeReconnect', () => {
     console.log('[BOT] Node reconnected at ' + now.toLocaleString('en-US') + ' !')
-  });
+  })
 
   client.music.on('nodeClose', (error) => {
     console.log('[BOT] Node shut down! \n' + error)
   })
 
-	client.music.on('trackPlay', (track, player) => {
+  client.music.on('trackPlay', (track, player) => {
     client.channels.fetch(config.music_channel)
-    .then(channel => channel.messages.fetch({ limit: 1 })
-      .then(message => {
-        if (message.first().author.bot && message.first().embeds[0] && message.first().embeds[0].author.name == 'Now Playing') {
-          message.first().delete()
-        }
-        const embed = new Discord.MessageEmbed()
-        .setAuthor('Now Playing')
-        .setTitle(track.title)
-        .setURL(track.uri)
-        .setColor(0x00AE86)
-        return message.first().channel.send({ embed })
-      }).catch(console.error)
-    )
-    .catch(console.error)
-	});
+      .then(channel => channel.messages.fetch({ limit: 1 })
+        .then(message => {
+          if (message.first().author.bot && message.first().embeds[0] && message.first().embeds[0].author.name == 'Now Playing') {
+            message.first().delete()
+          }
+          const embed = new Discord.MessageEmbed()
+            .setAuthor('Now Playing')
+            .setTitle(track.title)
+            .setURL(track.uri)
+            .setColor(0x00AE86)
+          return message.first().channel.send({ embed })
+        }).catch(console.error)
+      )
+      .catch(console.error)
+  })
 
   const now = new Date(Date.now())
   console.log(`[BOT] Online as ${client.user.tag}! at ` + now.toLocaleString('en-US'))
@@ -88,7 +88,7 @@ fs.readdir('./events/', (err, files) => {
   }
   files.forEach(file => {
     const event = require(`./events/${file}`)
-    let eventName = file.split('.')[0]
+    const eventName = file.split('.')[0]
     client.on(eventName, event.bind(null, client))
   })
 })
@@ -103,12 +103,12 @@ fs.readdir('./commands/', (err, files) => {
     if (!file.endsWith('.js')) {
       return
     }
-    let commandFile = require(`./commands/${file}`)
-    let commandName = file.split('.')[0]
+    const commandFile = require(`./commands/${file}`)
+    const commandName = file.split('.')[0]
     if (client.config.debug) {
       console.log('[BOT] Loading ' + commandName + '.js')
     }
-    client.cooldowns.set(commandName, new Discord.Collection());
+    client.cooldowns.set(commandName, new Discord.Collection())
     client.commands.set(commandName, commandFile)
   })
 })
