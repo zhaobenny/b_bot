@@ -18,6 +18,9 @@ module.exports = (client, msg) => {
   // Cooldown code based off https://discordjs.guide/command-handling/adding-features.html#cooldowns
   const now = Date.now()
   const timestamps = client.cooldowns.get(command.name)
+  if (!timestamps) {
+    return
+  }
   const cooldownAmount = (command.cooldown || 0) * 1000
   if (timestamps.has(msg.author.id)) {
     const expirationTime = timestamps.get(msg.author.id) + cooldownAmount
