@@ -1,10 +1,10 @@
 # b_bot
 [![Depfu](https://badges.depfu.com/badges/e6db7ca22f4528ae72f1a805d985396a/overview.svg)](https://depfu.com/github/zhaobenny/b_bot?project_id=13550)
 
-Discord bot capable of playing Youtube videos and ~~Spotify links (through Youtube)~~ made for own personal uses.
+Custom Discord Bot used for a personal server.
 
 ###  Installation
-Inital setup instructions assumes Ubtuntu 16.04+ as OS
+Inital setup instructions (for myself if I forget)
 ```
 sudo apt install build-essential
 git clone https://github.com/zhaobenny/b_bot.git
