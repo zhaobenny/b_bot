@@ -1,7 +1,9 @@
 # b_bot
 [![Depfu](https://badges.depfu.com/badges/e6db7ca22f4528ae72f1a805d985396a/overview.svg)](https://depfu.com/github/zhaobenny/b_bot?project_id=13550)
 
-Custom Discord Bot used for a personal server.
+**Not used anymore**
+
+~~Custom Discord Bot used for a personal server.~~ 
 
 ###  Installation
 Inital setup instructions (for myself if I forget)
